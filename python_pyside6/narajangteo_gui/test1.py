@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
-from PySide6.QtCore import QDate
+from PySide6.QtCore import QDate, QRegularExpression
 from PySide6.QtGui import QIcon
 from mainwindow_test import Ui_MainWindow
 from widget_test import Ui_Form
@@ -52,6 +52,17 @@ class Widget(QWidget):
         self.ui.pushButton_run.clicked.connect(self.run_app)
 
     # --------------------------------- 실행 버튼 클릭 시 유효성 검사 실행 ---------------------------------
+    # 공고명에 고의적인 특수문자로 파라미터값을 조정 방지를 위한 정규표현식
+    url_regex = QRegularExpression("[@|&|%|=]")
+    def is_empty_gongoname(self):
+        if self.ui.lineEdit_announceTextInput.text() == "":
+            self.ui.textEdit_log.setText("공고명을 적어주세요.")
+            return False
+        elif not self.url_regex.match(self.ui.lineEdit_announceTextInput.text()).hasMatch():
+            self.ui.textEdit_log.setText("공고명에 고의적인 파라미터값 넣지마세요.....")
+            return False
+
+
     # 공고/수요기관 라디오 버튼 체크 확인
     def org_radio_check(self):
         # if self.ui.radioButton_gongoOrganization.isChecked():
@@ -75,23 +86,24 @@ class Widget(QWidget):
 
     # 버튼 클릭 시 확인을 위한 메서드
     def run_app(self):
-        url = "https://www.g2b.go.kr:8101/ep/tbid/tbidList.do?"
-        taskClCds = self.ui.comboBox_workGubun.currentData()
-        bidNm = self.ui.lineEdit_announceTextInput.text()
-        searchDtType = self.ui.comboBox_announceDateGubun.currentData()
-        fromBidDt = self.ui.dateEdit_dateStart.date().toString(
-            "yyyy/MM/dd")  # QDate 객체를 toString -> yyyy/MM/dd 형식의 String 변환
-        toBidDt = self.ui.dateEdit_dateEnd.date().toString(
-            "yyyy/MM/dd")  # QDate 객체를 toString -> yyyy/MM/dd 형식의 String 변환
-        radOrgan = self.org_radio_check()
-        instNm = self.ui.lineEdit_instNm.text()
-        area = self.ui.comboBox_areaGubun.currentData()
-        regYn = "Y"
-        bidSearchType = "1"
-        searchType = "1"
-        all_text = url + "taskClCds=" + taskClCds + "&bidNm=" + bidNm + "&searchDtType=" + searchDtType + "&fromBidDt=" + fromBidDt + "&toBidDt=" + toBidDt + "&radOrgan=" + radOrgan + "&instNm=" + instNm + "&area=" + area + "&regYn=" + regYn + "&bidSearchType=" + bidSearchType + "&searchType=" + searchType
-        print(all_text)
-        self.ui.textEdit_log.setText(all_text)
+        if self.is_empty_gongoname():
+            url = "https://www.g2b.go.kr:8101/ep/tbid/tbidList.do?"
+            taskClCds = self.ui.comboBox_workGubun.currentData()
+            bidNm = self.ui.lineEdit_announceTextInput.text()
+            searchDtType = self.ui.comboBox_announceDateGubun.currentData()
+            fromBidDt = self.ui.dateEdit_dateStart.date().toString(
+                "yyyy/MM/dd")  # QDate 객체를 toString -> yyyy/MM/dd 형식의 String 변환
+            toBidDt = self.ui.dateEdit_dateEnd.date().toString(
+                "yyyy/MM/dd")  # QDate 객체를 toString -> yyyy/MM/dd 형식의 String 변환
+            radOrgan = self.org_radio_check()
+            instNm = self.ui.lineEdit_instNm.text()
+            area = self.ui.comboBox_areaGubun.currentData()
+            regYn = "Y"
+            bidSearchType = "1"
+            searchType = "1"
+            all_text = url + "taskClCds=" + taskClCds + "&bidNm=" + bidNm + "&searchDtType=" + searchDtType + "&fromBidDt=" + fromBidDt + "&toBidDt=" + toBidDt + "&radOrgan=" + radOrgan + "&instNm=" + instNm + "&area=" + area + "&regYn=" + regYn + "&bidSearchType=" + bidSearchType + "&searchType=" + searchType
+            print(all_text)
+            self.ui.textEdit_log.setText(all_text)
 
 
 # 전체 창 설정 부분(타이클, 아이콘, 메뉴바, 상태바
