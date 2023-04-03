@@ -16,15 +16,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDateEdit,
-    QFrame, QGridLayout, QHBoxLayout, QLabel,
-    QLineEdit, QPushButton, QRadioButton, QSizePolicy,
-    QTextEdit, QWidget)
+    QFrame, QGridLayout, QGroupBox, QHBoxLayout,
+    QLabel, QLineEdit, QPushButton, QRadioButton,
+    QSizePolicy, QTextEdit, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(858, 455)
+        Form.resize(708, 510)
         self.gridLayout = QGridLayout(Form)
         self.gridLayout.setObjectName(u"gridLayout")
         self.wrapAll = QGridLayout()
@@ -118,15 +118,19 @@ class Ui_Form(object):
 
         self.label_dateStart = QLabel(Form)
         self.label_dateStart.setObjectName(u"label_dateStart")
-        sizePolicy.setHeightForWidth(self.label_dateStart.sizePolicy().hasHeightForWidth())
-        self.label_dateStart.setSizePolicy(sizePolicy)
+        sizePolicy2 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.label_dateStart.sizePolicy().hasHeightForWidth())
+        self.label_dateStart.setSizePolicy(sizePolicy2)
 
         self.wrapTop_mid.addWidget(self.label_dateStart)
 
         self.dateEdit_dateStart = QDateEdit(Form)
         self.dateEdit_dateStart.setObjectName(u"dateEdit_dateStart")
-        sizePolicy1.setHeightForWidth(self.dateEdit_dateStart.sizePolicy().hasHeightForWidth())
-        self.dateEdit_dateStart.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.dateEdit_dateStart.sizePolicy().hasHeightForWidth())
+        self.dateEdit_dateStart.setSizePolicy(sizePolicy)
+        self.dateEdit_dateStart.setCalendarPopup(True)
 
         self.wrapTop_mid.addWidget(self.dateEdit_dateStart)
 
@@ -139,15 +143,17 @@ class Ui_Form(object):
 
         self.label_dateEnd = QLabel(Form)
         self.label_dateEnd.setObjectName(u"label_dateEnd")
-        sizePolicy.setHeightForWidth(self.label_dateEnd.sizePolicy().hasHeightForWidth())
-        self.label_dateEnd.setSizePolicy(sizePolicy)
+        sizePolicy2.setHeightForWidth(self.label_dateEnd.sizePolicy().hasHeightForWidth())
+        self.label_dateEnd.setSizePolicy(sizePolicy2)
+        self.label_dateEnd.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.wrapTop_mid.addWidget(self.label_dateEnd)
 
         self.dateEdit_dateEnd = QDateEdit(Form)
         self.dateEdit_dateEnd.setObjectName(u"dateEdit_dateEnd")
-        sizePolicy1.setHeightForWidth(self.dateEdit_dateEnd.sizePolicy().hasHeightForWidth())
-        self.dateEdit_dateEnd.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.dateEdit_dateEnd.sizePolicy().hasHeightForWidth())
+        self.dateEdit_dateEnd.setSizePolicy(sizePolicy)
+        self.dateEdit_dateEnd.setCalendarPopup(True)
 
         self.wrapTop_mid.addWidget(self.dateEdit_dateEnd)
 
@@ -170,27 +176,33 @@ class Ui_Form(object):
 
         self.wrapTop_bottom.addWidget(self.line_4)
 
-        self.radioButton_gongoOrganization = QRadioButton(Form)
+        self.groupBox_orgRadio = QGroupBox(Form)
+        self.groupBox_orgRadio.setObjectName(u"groupBox_orgRadio")
+        self.horizontalLayout = QHBoxLayout(self.groupBox_orgRadio)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.radioButton_gongoOrganization = QRadioButton(self.groupBox_orgRadio)
         self.radioButton_gongoOrganization.setObjectName(u"radioButton_gongoOrganization")
         self.radioButton_gongoOrganization.setLayoutDirection(Qt.RightToLeft)
+        self.radioButton_gongoOrganization.setAutoFillBackground(False)
+        self.radioButton_gongoOrganization.setChecked(True)
 
-        self.wrapTop_bottom.addWidget(self.radioButton_gongoOrganization)
+        self.horizontalLayout.addWidget(self.radioButton_gongoOrganization)
 
-        self.radioButton_suyoOrganization = QRadioButton(Form)
+        self.radioButton_suyoOrganization = QRadioButton(self.groupBox_orgRadio)
         self.radioButton_suyoOrganization.setObjectName(u"radioButton_suyoOrganization")
         self.radioButton_suyoOrganization.setLayoutDirection(Qt.RightToLeft)
 
-        self.wrapTop_bottom.addWidget(self.radioButton_suyoOrganization)
+        self.horizontalLayout.addWidget(self.radioButton_suyoOrganization)
 
-        self.lineEdit_3 = QLineEdit(Form)
-        self.lineEdit_3.setObjectName(u"lineEdit_3")
-        sizePolicy2 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Fixed)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.lineEdit_3.sizePolicy().hasHeightForWidth())
-        self.lineEdit_3.setSizePolicy(sizePolicy2)
 
-        self.wrapTop_bottom.addWidget(self.lineEdit_3)
+        self.wrapTop_bottom.addWidget(self.groupBox_orgRadio)
+
+        self.lineEdit_instNm = QLineEdit(Form)
+        self.lineEdit_instNm.setObjectName(u"lineEdit_instNm")
+        sizePolicy2.setHeightForWidth(self.lineEdit_instNm.sizePolicy().hasHeightForWidth())
+        self.lineEdit_instNm.setSizePolicy(sizePolicy2)
+
+        self.wrapTop_bottom.addWidget(self.lineEdit_instNm)
 
         self.line_5 = QFrame(Form)
         self.line_5.setObjectName(u"line_5")
@@ -219,15 +231,20 @@ class Ui_Form(object):
 
         self.wrapBottom = QGridLayout()
         self.wrapBottom.setObjectName(u"wrapBottom")
-        self.textEdit_log = QTextEdit(Form)
-        self.textEdit_log.setObjectName(u"textEdit_log")
-
-        self.wrapBottom.addWidget(self.textEdit_log, 0, 2, 16, 1)
-
         self.label_autoSetting = QLabel(Form)
         self.label_autoSetting.setObjectName(u"label_autoSetting")
 
         self.wrapBottom.addWidget(self.label_autoSetting, 0, 0, 1, 2)
+
+        self.checkBox_fri = QCheckBox(Form)
+        self.checkBox_fri.setObjectName(u"checkBox_fri")
+
+        self.wrapBottom.addWidget(self.checkBox_fri, 9, 0, 1, 2)
+
+        self.checkBox_wed = QCheckBox(Form)
+        self.checkBox_wed.setObjectName(u"checkBox_wed")
+
+        self.wrapBottom.addWidget(self.checkBox_wed, 7, 0, 1, 2)
 
         self.line_3 = QFrame(Form)
         self.line_3.setObjectName(u"line_3")
@@ -235,6 +252,55 @@ class Ui_Form(object):
         self.line_3.setFrameShadow(QFrame.Sunken)
 
         self.wrapBottom.addWidget(self.line_3, 2, 0, 1, 2)
+
+        self.checkBox_mon = QCheckBox(Form)
+        self.checkBox_mon.setObjectName(u"checkBox_mon")
+
+        self.wrapBottom.addWidget(self.checkBox_mon, 5, 0, 1, 2)
+
+        self.label_day = QLabel(Form)
+        self.label_day.setObjectName(u"label_day")
+
+        self.wrapBottom.addWidget(self.label_day, 3, 0, 1, 2)
+
+        self.label_autoInterval = QLabel(Form)
+        self.label_autoInterval.setObjectName(u"label_autoInterval")
+
+        self.wrapBottom.addWidget(self.label_autoInterval, 11, 0, 1, 2)
+
+        self.line = QFrame(Form)
+        self.line.setObjectName(u"line")
+        self.line.setFrameShape(QFrame.HLine)
+        self.line.setFrameShadow(QFrame.Sunken)
+
+        self.wrapBottom.addWidget(self.line, 10, 0, 1, 2)
+
+        self.checkBox_all = QCheckBox(Form)
+        self.checkBox_all.setObjectName(u"checkBox_all")
+
+        self.wrapBottom.addWidget(self.checkBox_all, 4, 0, 1, 2)
+
+        self.label_autoEndTime = QLabel(Form)
+        self.label_autoEndTime.setObjectName(u"label_autoEndTime")
+
+        self.wrapBottom.addWidget(self.label_autoEndTime, 14, 0, 1, 2)
+
+        self.textEdit_log = QTextEdit(Form)
+        self.textEdit_log.setObjectName(u"textEdit_log")
+
+        self.wrapBottom.addWidget(self.textEdit_log, 0, 2, 16, 1)
+
+        self.comboBox_autoInterval = QComboBox(Form)
+        self.comboBox_autoInterval.setObjectName(u"comboBox_autoInterval")
+
+        self.wrapBottom.addWidget(self.comboBox_autoInterval, 12, 0, 1, 2)
+
+        self.line_2 = QFrame(Form)
+        self.line_2.setObjectName(u"line_2")
+        self.line_2.setFrameShape(QFrame.HLine)
+        self.line_2.setFrameShadow(QFrame.Sunken)
+
+        self.wrapBottom.addWidget(self.line_2, 13, 0, 1, 2)
 
         self.checkBox_thu = QCheckBox(Form)
         self.checkBox_thu.setObjectName(u"checkBox_thu")
@@ -246,74 +312,28 @@ class Ui_Form(object):
 
         self.wrapBottom.addWidget(self.checkBox_tue, 6, 0, 1, 2)
 
-        self.label_day = QLabel(Form)
-        self.label_day.setObjectName(u"label_day")
-
-        self.wrapBottom.addWidget(self.label_day, 3, 0, 1, 2)
-
-        self.radioButton_autoOff = QRadioButton(Form)
-        self.radioButton_autoOff.setObjectName(u"radioButton_autoOff")
-
-        self.wrapBottom.addWidget(self.radioButton_autoOff, 1, 1, 1, 1)
-
-        self.checkBox_mon = QCheckBox(Form)
-        self.checkBox_mon.setObjectName(u"checkBox_mon")
-
-        self.wrapBottom.addWidget(self.checkBox_mon, 5, 0, 1, 2)
-
-        self.line = QFrame(Form)
-        self.line.setObjectName(u"line")
-        self.line.setFrameShape(QFrame.HLine)
-        self.line.setFrameShadow(QFrame.Sunken)
-
-        self.wrapBottom.addWidget(self.line, 10, 0, 1, 2)
-
-        self.checkBox_fri = QCheckBox(Form)
-        self.checkBox_fri.setObjectName(u"checkBox_fri")
-
-        self.wrapBottom.addWidget(self.checkBox_fri, 9, 0, 1, 2)
-
-        self.radioButton_autoOn = QRadioButton(Form)
-        self.radioButton_autoOn.setObjectName(u"radioButton_autoOn")
-
-        self.wrapBottom.addWidget(self.radioButton_autoOn, 1, 0, 1, 1)
-
-        self.line_2 = QFrame(Form)
-        self.line_2.setObjectName(u"line_2")
-        self.line_2.setFrameShape(QFrame.HLine)
-        self.line_2.setFrameShadow(QFrame.Sunken)
-
-        self.wrapBottom.addWidget(self.line_2, 13, 0, 1, 2)
-
-        self.checkBox_wed = QCheckBox(Form)
-        self.checkBox_wed.setObjectName(u"checkBox_wed")
-
-        self.wrapBottom.addWidget(self.checkBox_wed, 7, 0, 1, 2)
-
-        self.label_autoEndTime = QLabel(Form)
-        self.label_autoEndTime.setObjectName(u"label_autoEndTime")
-
-        self.wrapBottom.addWidget(self.label_autoEndTime, 14, 0, 1, 2)
-
-        self.comboBox_autoInterval = QComboBox(Form)
-        self.comboBox_autoInterval.setObjectName(u"comboBox_autoInterval")
-
-        self.wrapBottom.addWidget(self.comboBox_autoInterval, 12, 0, 1, 2)
-
         self.lineEdit_autoEndTime = QLineEdit(Form)
         self.lineEdit_autoEndTime.setObjectName(u"lineEdit_autoEndTime")
 
         self.wrapBottom.addWidget(self.lineEdit_autoEndTime, 15, 0, 1, 2)
 
-        self.label_autoInterval = QLabel(Form)
-        self.label_autoInterval.setObjectName(u"label_autoInterval")
+        self.groupBox_autoRadioGroup = QGroupBox(Form)
+        self.groupBox_autoRadioGroup.setObjectName(u"groupBox_autoRadioGroup")
+        self.horizontalLayout_2 = QHBoxLayout(self.groupBox_autoRadioGroup)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.radioButton_autoOn = QRadioButton(self.groupBox_autoRadioGroup)
+        self.radioButton_autoOn.setObjectName(u"radioButton_autoOn")
+        self.radioButton_autoOn.setChecked(True)
 
-        self.wrapBottom.addWidget(self.label_autoInterval, 11, 0, 1, 2)
+        self.horizontalLayout_2.addWidget(self.radioButton_autoOn)
 
-        self.checkBox_all = QCheckBox(Form)
-        self.checkBox_all.setObjectName(u"checkBox_all")
+        self.radioButton_autoOff = QRadioButton(self.groupBox_autoRadioGroup)
+        self.radioButton_autoOff.setObjectName(u"radioButton_autoOff")
 
-        self.wrapBottom.addWidget(self.checkBox_all, 4, 0, 1, 2)
+        self.horizontalLayout_2.addWidget(self.radioButton_autoOff)
+
+
+        self.wrapBottom.addWidget(self.groupBox_autoRadioGroup, 1, 0, 1, 2)
 
 
         self.wrapAll.addLayout(self.wrapBottom, 1, 0, 1, 1)
@@ -342,16 +362,16 @@ class Ui_Form(object):
         self.radioButton_suyoOrganization.setText(QCoreApplication.translate("Form", u"\uc218\uc694\uae30\uad00", None))
         self.label_areaGubun.setText(QCoreApplication.translate("Form", u"\uc9c0\uc5ed", None))
         self.label_autoSetting.setText(QCoreApplication.translate("Form", u"\uc790\ub3d9\ud654 \uc124\uc815", None))
-        self.checkBox_thu.setText(QCoreApplication.translate("Form", u"\ubaa9", None))
-        self.checkBox_tue.setText(QCoreApplication.translate("Form", u"\ud654", None))
-        self.label_day.setText(QCoreApplication.translate("Form", u"\uc694\uc77c", None))
-        self.radioButton_autoOff.setText(QCoreApplication.translate("Form", u"Auto_Off", None))
-        self.checkBox_mon.setText(QCoreApplication.translate("Form", u"\uc6d4", None))
         self.checkBox_fri.setText(QCoreApplication.translate("Form", u"\uae08", None))
-        self.radioButton_autoOn.setText(QCoreApplication.translate("Form", u"Auto_On", None))
         self.checkBox_wed.setText(QCoreApplication.translate("Form", u"\uc218", None))
-        self.label_autoEndTime.setText(QCoreApplication.translate("Form", u"\uc885\ub8cc\uc2dc\uac04 \uc124\uc815(18:00)", None))
+        self.checkBox_mon.setText(QCoreApplication.translate("Form", u"\uc6d4", None))
+        self.label_day.setText(QCoreApplication.translate("Form", u"\uc694\uc77c", None))
         self.label_autoInterval.setText(QCoreApplication.translate("Form", u"\uac04\uaca9 \uc124\uc815", None))
         self.checkBox_all.setText(QCoreApplication.translate("Form", u"\uc804\uccb4", None))
+        self.label_autoEndTime.setText(QCoreApplication.translate("Form", u"\uc885\ub8cc\uc2dc\uac04 \uc124\uc815(18:00)", None))
+        self.checkBox_thu.setText(QCoreApplication.translate("Form", u"\ubaa9", None))
+        self.checkBox_tue.setText(QCoreApplication.translate("Form", u"\ud654", None))
+        self.radioButton_autoOn.setText(QCoreApplication.translate("Form", u"Auto_On", None))
+        self.radioButton_autoOff.setText(QCoreApplication.translate("Form", u"Auto_Off", None))
     # retranslateUi
 

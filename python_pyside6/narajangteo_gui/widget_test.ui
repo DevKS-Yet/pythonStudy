@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>858</width>
-    <height>455</height>
+    <width>708</width>
+    <height>510</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -150,7 +150,7 @@
          <item>
           <widget class="QLabel" name="label_dateStart">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -163,10 +163,13 @@
          <item>
           <widget class="QDateEdit" name="dateEdit_dateStart">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="calendarPopup">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -180,7 +183,7 @@
          <item>
           <widget class="QLabel" name="label_dateEnd">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -188,15 +191,21 @@
            <property name="text">
             <string>종료일</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item>
           <widget class="QDateEdit" name="dateEdit_dateEnd">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="calendarPopup">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -225,27 +234,39 @@
           </widget>
          </item>
          <item>
-          <widget class="QRadioButton" name="radioButton_gongoOrganization">
-           <property name="layoutDirection">
-            <enum>Qt::RightToLeft</enum>
-           </property>
-           <property name="text">
-            <string>공고기관</string>
-           </property>
+          <widget class="QGroupBox" name="groupBox_orgRadio">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QRadioButton" name="radioButton_gongoOrganization">
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="autoFillBackground">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>공고기관</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioButton_suyoOrganization">
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text">
+               <string>수요기관</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
          <item>
-          <widget class="QRadioButton" name="radioButton_suyoOrganization">
-           <property name="layoutDirection">
-            <enum>Qt::RightToLeft</enum>
-           </property>
-           <property name="text">
-            <string>수요기관</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_3">
+          <widget class="QLineEdit" name="lineEdit_instNm">
            <property name="sizePolicy">
             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -283,9 +304,6 @@
      </item>
      <item row="1" column="0">
       <layout class="QGridLayout" name="wrapBottom">
-       <item row="0" column="2" rowspan="16">
-        <widget class="QTextEdit" name="textEdit_log"/>
-       </item>
        <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="label_autoSetting">
          <property name="text">
@@ -293,8 +311,77 @@
          </property>
         </widget>
        </item>
+       <item row="9" column="0" colspan="2">
+        <widget class="QCheckBox" name="checkBox_fri">
+         <property name="text">
+          <string>금</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <widget class="QCheckBox" name="checkBox_wed">
+         <property name="text">
+          <string>수</string>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="0" colspan="2">
         <widget class="Line" name="line_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="QCheckBox" name="checkBox_mon">
+         <property name="text">
+          <string>월</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QLabel" name="label_day">
+         <property name="text">
+          <string>요일</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="2">
+        <widget class="QLabel" name="label_autoInterval">
+         <property name="text">
+          <string>간격 설정</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0" colspan="2">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QCheckBox" name="checkBox_all">
+         <property name="text">
+          <string>전체</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0" colspan="2">
+        <widget class="QLabel" name="label_autoEndTime">
+         <property name="text">
+          <string>종료시간 설정(18:00)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" rowspan="16">
+        <widget class="QTextEdit" name="textEdit_log"/>
+       </item>
+       <item row="12" column="0" colspan="2">
+        <widget class="QComboBox" name="comboBox_autoInterval"/>
+       </item>
+       <item row="13" column="0" colspan="2">
+        <widget class="Line" name="line_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -314,87 +401,30 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QLabel" name="label_day">
-         <property name="text">
-          <string>요일</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QRadioButton" name="radioButton_autoOff">
-         <property name="text">
-          <string>Auto_Off</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QCheckBox" name="checkBox_mon">
-         <property name="text">
-          <string>월</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0" colspan="2">
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0" colspan="2">
-        <widget class="QCheckBox" name="checkBox_fri">
-         <property name="text">
-          <string>금</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QRadioButton" name="radioButton_autoOn">
-         <property name="text">
-          <string>Auto_On</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0" colspan="2">
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0" colspan="2">
-        <widget class="QCheckBox" name="checkBox_wed">
-         <property name="text">
-          <string>수</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0" colspan="2">
-        <widget class="QLabel" name="label_autoEndTime">
-         <property name="text">
-          <string>종료시간 설정(18:00)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="0" colspan="2">
-        <widget class="QComboBox" name="comboBox_autoInterval"/>
-       </item>
        <item row="15" column="0" colspan="2">
         <widget class="QLineEdit" name="lineEdit_autoEndTime"/>
        </item>
-       <item row="11" column="0" colspan="2">
-        <widget class="QLabel" name="label_autoInterval">
-         <property name="text">
-          <string>간격 설정</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QCheckBox" name="checkBox_all">
-         <property name="text">
-          <string>전체</string>
-         </property>
+       <item row="1" column="0" colspan="2">
+        <widget class="QGroupBox" name="groupBox_autoRadioGroup">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QRadioButton" name="radioButton_autoOn">
+            <property name="text">
+             <string>Auto_On</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioButton_autoOff">
+            <property name="text">
+             <string>Auto_Off</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
