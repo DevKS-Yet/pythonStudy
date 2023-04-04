@@ -147,13 +147,9 @@ class Widget(QWidget):
         return BeautifulSoup(html_unsorted.text, 'html.parser')
 
     def get_href(self, html_input):
-        tl_class = html_input.find_all("td", class_="tl")
-        for div_a_tag in tl_class:
-            div_a_tag = div_a_tag.find_all(lambda tag: tag.name == 'a')
-            for a_tag in div_a_tag:
-                href_split = str(a_tag.getText).split('"')
-                href = href_split[1]
-                self.add_log(href)
+        a_tag_list = html_input.select('.tl div a')
+        for a_tag in a_tag_list:
+            self.add_log(a_tag.get_attribute_list('href')[0] + " - " + a_tag.text)
 
     def searchByKeyword(self, keyword_input, html_input):
         div_a_tag = html_input.find_all(lambda tag: tag.name == 'a' and keyword_input in tag.text)
