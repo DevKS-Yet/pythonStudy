@@ -95,7 +95,7 @@ class Widget(QWidget):
 
     # 자동 종료시간이 공란이 아닐 시 00:00 양식으로 제대로 적혔는지 확인
     def check_auto_time(self, line_edit):
-        time_regex = QRegularExpression("[0-1][0-9]:[0-5][0-9]")  # 00:00~23:59 까지 설정 가능
+        time_regex = QRegularExpression("[0-1][0-9]:[0-5][0-9]|[2][0-3]:[0-5][0-9]")  # 00:00~23:59 까지 설정 가능
         return True if not time_regex.match(line_edit.text()).hasMatch() and not line_edit.text() == "" else False
     # --------------------------------- 실행 버튼 클릭 시 유효성 검사 실행@@@ ---------------------------------
 
