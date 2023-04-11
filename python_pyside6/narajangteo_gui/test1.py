@@ -90,8 +90,9 @@ class Widget(QWidget):
         return True if line_regex.match(line_edit.text()).hasMatch() else False
 
     # 기간을 6개월 이상 차이나도록 입력했는지 확인
+    # 또는 시작일이 종료일보다 높을 경우에도 True 값 리턴
     def check_date(self, date_start, date_end):
-        return True if date_start.date().daysTo(date_end.date()) > 180 else False  # daysTo는 날짜 비교 함수.
+        return True if date_start.date().daysTo(date_end.date()) > 180 or date_start.date().daysTo(date_end.date()) < 0 else False  # daysTo는 날짜 비교 함수.
 
     # 자동 종료시간이 공란이 아닐 시 00:00 양식으로 제대로 적혔는지 확인
     def check_auto_time(self, line_edit):
