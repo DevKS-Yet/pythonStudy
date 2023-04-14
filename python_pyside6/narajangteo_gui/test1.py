@@ -152,7 +152,7 @@ class Widget(QWidget):
     def get_href(self, html_input):
         a_tag_list = html_input.select('.tl div a')
         for a_tag in a_tag_list:
-            self.add_log(a_tag.get_attribute_list('href')[0] + " - " + a_tag.text)
+            self.add_log('<a href="' + a_tag.get_attribute_list('href')[0] + '">' + " - " + a_tag.text + "</a>")
 
     def searchByKeyword(self, keyword_input, html_input):
         div_a_tag = html_input.find_all(lambda tag: tag.name == 'a' and keyword_input in tag.text)
@@ -163,7 +163,6 @@ class Widget(QWidget):
                 href_split = str(a_tag.getText).split('"')
                 href = href_split[1]
                 self.add_log(href)
-
 
     # 버튼 클릭 시 확인을 위한 메서드
     def run_app(self):
@@ -193,7 +192,6 @@ class Widget(QWidget):
         else:
             self.add_log("자동화 설정이 꺼져있으므로 1회만 실행합니다.")
             html = self.get_html(url)
-            print(html)
             self.get_href(html)
 
 
