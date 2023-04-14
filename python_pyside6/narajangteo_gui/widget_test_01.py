@@ -291,12 +291,13 @@ class Ui_Form(object):
         self.horizontalLayout_autoRadioGroup.setObjectName(u"horizontalLayout_autoRadioGroup")
         self.radioButton_autoOn = QRadioButton(self.groupBox_autoRadioGroup)
         self.radioButton_autoOn.setObjectName(u"radioButton_autoOn")
-        self.radioButton_autoOn.setChecked(True)
+        self.radioButton_autoOn.setChecked(False)
 
         self.horizontalLayout_autoRadioGroup.addWidget(self.radioButton_autoOn)
 
         self.radioButton_autoOff = QRadioButton(self.groupBox_autoRadioGroup)
         self.radioButton_autoOff.setObjectName(u"radioButton_autoOff")
+        self.radioButton_autoOff.setChecked(True)
 
         self.horizontalLayout_autoRadioGroup.addWidget(self.radioButton_autoOff)
 
@@ -320,6 +321,8 @@ class Ui_Form(object):
 
         self.textEdit_log = QTextEdit(Form)
         self.textEdit_log.setObjectName(u"textEdit_log")
+        self.textEdit_log.setReadOnly(True)
+        self.textEdit_log.setTextInteractionFlags(Qt.LinksAccessibleByMouse|Qt.TextSelectableByMouse)
 
         self.wrapBottom.addWidget(self.textEdit_log, 0, 2, 12, 1)
 
