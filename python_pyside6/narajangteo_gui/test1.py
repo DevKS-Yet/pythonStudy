@@ -5,7 +5,6 @@ from PySide6.QtGui import QIcon
 from mainwindow_test import Ui_MainWindow
 from widget_test_01 import Ui_Form
 from urllib import parse
-from requests import get
 from bs4 import BeautifulSoup
 
 # WORKGUBUN_TYPE = [(1, '물품'), (3, '공사'), (5, '용역'), (6, '리스'), (2, '외자'), (11, '비축'), (4, '기타'), (20, '민간')]
@@ -101,6 +100,7 @@ class Widget(QWidget):
     # --------------------------------- 실행 버튼 클릭 시 유효성 검사 실행@@@ ---------------------------------
 
     # 공고/수요기관 라디오 버튼 체크 확인
+    # @Returns : String(공고기관일 경우 "1", 수요기관일 경우 "2")
     def check_org_radio(self):
         # if self.ui.radioButton_gongoOrganization.isChecked():
         #     return "1"
@@ -111,6 +111,7 @@ class Widget(QWidget):
         return "1" if self.ui.radioButton_gongoOrganization.isChecked() else "2"
 
     # 자동화 라디오 버튼 체크 확인
+    # @Returns : boolean(On일 경우 True, Off일 경우 False)
     def check_auto_radio(self):
         # if self.ui.radioButton_autoOn.isChecked():
         #     return "on"
@@ -121,6 +122,7 @@ class Widget(QWidget):
         return True if self.ui.radioButton_autoOn.isChecked() else False
 
     # text_log 추가로 적히게 세팅
+    # @Retuens : String(@parameter comment 대로 log창에 추가)
     def add_log(self, comment):
         return self.ui.textEdit_log.setText(self.ui.textEdit_log.toPlainText() + comment + "\n")
 
