@@ -127,7 +127,7 @@ class Widget(QWidget):
         return self.ui.textBrowser_log.setText(self.ui.textBrowser_log.toPlainText() + comment + "\n")
 
     def add_htmllog(self, comment):
-        return self.ui.textBrowser_log.setHtml(self.ui.textBrowser_log.toHtml() + comment + "<br>")
+        return self.ui.textBrowser_log.setHtml(self.ui.textBrowser_log.toHtml() + comment)
 
     # URL 세팅
     def make_url(self):
@@ -197,6 +197,7 @@ class Widget(QWidget):
             html = self.get_html(url)
             self.get_href(html)
             self.ui.textBrowser_log.setOpenExternalLinks(True)
+            print(self.ui.textBrowser_log.toHtml())
 
 
 # 전체 창 설정 부분(타이클, 아이콘, 메뉴바, 상태바
