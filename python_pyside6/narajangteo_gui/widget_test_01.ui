@@ -418,16 +418,6 @@
        <item row="7" column="0" colspan="2">
         <widget class="QComboBox" name="comboBox_autoInterval"/>
        </item>
-       <item row="0" column="2" rowspan="12">
-        <widget class="QTextEdit" name="textEdit_log">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-         <property name="textInteractionFlags">
-          <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-         </property>
-        </widget>
-       </item>
        <item row="11" column="0" colspan="2">
         <spacer name="verticalSpacer">
          <property name="orientation">
@@ -440,6 +430,16 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="0" column="2" rowspan="12">
+        <widget class="QTextBrowser" name="textBrowser_log">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::TextBrowserInteraction</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

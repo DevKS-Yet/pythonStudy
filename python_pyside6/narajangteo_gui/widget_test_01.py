@@ -18,7 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QComboBox, QDateEdit, QFrame,
     QGridLayout, QGroupBox, QHBoxLayout, QLabel,
     QLineEdit, QPushButton, QRadioButton, QSizePolicy,
-    QSpacerItem, QTextEdit, QWidget)
+    QSpacerItem, QTextBrowser, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -319,16 +319,16 @@ class Ui_Form(object):
 
         self.wrapBottom.addWidget(self.comboBox_autoInterval, 7, 0, 1, 2)
 
-        self.textEdit_log = QTextEdit(Form)
-        self.textEdit_log.setObjectName(u"textEdit_log")
-        self.textEdit_log.setReadOnly(True)
-        self.textEdit_log.setTextInteractionFlags(Qt.LinksAccessibleByMouse|Qt.TextSelectableByMouse)
-
-        self.wrapBottom.addWidget(self.textEdit_log, 0, 2, 12, 1)
-
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.wrapBottom.addItem(self.verticalSpacer, 11, 0, 1, 2)
+
+        self.textBrowser_log = QTextBrowser(Form)
+        self.textBrowser_log.setObjectName(u"textBrowser_log")
+        self.textBrowser_log.setReadOnly(True)
+        self.textBrowser_log.setTextInteractionFlags(Qt.TextBrowserInteraction)
+
+        self.wrapBottom.addWidget(self.textBrowser_log, 0, 2, 12, 1)
 
 
         self.wrapAll.addLayout(self.wrapBottom, 1, 0, 1, 1)

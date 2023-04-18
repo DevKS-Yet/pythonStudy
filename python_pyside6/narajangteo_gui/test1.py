@@ -1,5 +1,5 @@
 import requests
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QTextBrowser
 from PySide6.QtCore import QDate, QRegularExpression
 from PySide6.QtGui import QIcon
 from mainwindow_test import Ui_MainWindow
@@ -123,8 +123,11 @@ class Widget(QWidget):
 
     # text_log 추가로 적히게 세팅
     # @Retuens : String(@parameter comment 대로 log창에 추가)
-    def add_log(self, comment):
-        return self.ui.textEdit_log.setHtml(self.ui.textEdit_log.toPlainText() + comment + "\n")
+    def add_textlog(self, comment):
+        return self.ui.textBrowser_log.setText(self.ui.textBrowser_log.toPlainText() + comment + "\n")
+
+    def add_htmllog(self, comment):
+        return self.ui.textBrowser_log.setHtml(self.ui.textBrowser_log.toHtml() + comment + "<br>")
 
     # URL 세팅
     def make_url(self):
@@ -152,47 +155,48 @@ class Widget(QWidget):
     def get_href(self, html_input):
         a_tag_list = html_input.select('.tl div a')
         for a_tag in a_tag_list:
-            self.add_log('<a href="' + a_tag.get_attribute_list('href')[0] + '">' + " - " + a_tag.text + "</a>")
+            self.add_htmllog('<a href="' + a_tag.get_attribute_list('href')[0] + '">' + a_tag.text + "</a>")
 
     def searchByKeyword(self, keyword_input, html_input):
         div_a_tag = html_input.find_all(lambda tag: tag.name == 'a' and keyword_input in tag.text)
         if not div_a_tag:
-            self.add_log("#"*5 + "해당 키워드로 올라온 공고가 없습니다." + "#"*5)
+            self.add_textlog("#"*5 + "해당 키워드로 올라온 공고가 없습니다." + "#"*5)
         else:
             for a_tag in div_a_tag:
                 href_split = str(a_tag.getText).split('"')
                 href = href_split[1]
-                self.add_log(href)
+                self.add_textlog(href)
 
     # 버튼 클릭 시 확인을 위한 메서드
     def run_app(self):
-        self.ui.textEdit_log.setText("유효성 검사중입니다...\n")
+        self.ui.textBrowser_log.setText("유효성 검사중입니다...\n")
         if self.check_regex_line(self.ui.lineEdit_announceName):
-            self.add_log("공고명에 @, $, %, &, = 등으로 파라미터값을 조정하지 마세요...")
+            self.add_textlog("공고명에 @, $, %, &, = 등으로 파라미터값을 조정하지 마세요...")
             return
         elif self.check_regex_line(self.ui.lineEdit_organizationName):
-            self.add_log("기관명에 @, $, %, &, = 등으로 파라미터값을 조정하지 마세요...")
+            self.add_textlog("기관명에 @, $, %, &, = 등으로 파라미터값을 조정하지 마세요...")
             return
         elif self.check_date(self.ui.dateEdit_dateStart, self.ui.dateEdit_dateEnd):
-            self.add_log("기간 간격은 6개월 이내입니다...")
+            self.add_textlog("기간 간격은 6개월 이내입니다...")
             return
         else:
-            self.add_log("유효성 검사를 마쳤습니다.")
+            self.add_textlog("유효성 검사를 마쳤습니다.")
 
-        self.add_log("URL 생성중입니다...")
+        self.add_textlog("URL 생성중입니다...")
         url = self.make_url()
-        self.add_log("URL 생성 완료입니다.")
+        self.add_textlog("URL 생성 완료입니다.")
 
         if self.check_auto_radio():
-            self.add_log("자동화 설정 확인중입니다...")
+            self.add_textlog("자동화 설정 확인중입니다...")
             if self.check_auto_time(self.ui.lineEdit_autoEndTime):
-                self.add_log("자동화 종료시간을 제대로 적어주세요.\n공란일 시에는 18시에 종료됩니다.")
+                self.add_textlog("자동화 종료시간을 제대로 적어주세요.\n공란일 시에는 18시에 종료됩니다.")
                 return
-            self.add_log("자동화 설정 확인을 마쳤습니다.")
+            self.add_textlog("자동화 설정 확인을 마쳤습니다.")
         else:
-            self.add_log("자동화 설정이 꺼져있으므로 1회만 실행합니다.")
+            self.add_textlog("자동화 설정이 꺼져있으므로 1회만 실행합니다.")
             html = self.get_html(url)
             self.get_href(html)
+            self.ui.textBrowser_log.setOpenExternalLinks(True)
 
 
 # 전체 창 설정 부분(타이클, 아이콘, 메뉴바, 상태바
