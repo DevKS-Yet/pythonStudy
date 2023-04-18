@@ -124,7 +124,7 @@ class Widget(QWidget):
     # text_log 추가로 적히게 세팅
     # @Retuens : String(@parameter comment 대로 log창에 추가)
     def add_log(self, comment):
-        return self.ui.textEdit_log.setText(self.ui.textEdit_log.toPlainText() + comment + "\n")
+        return self.ui.textEdit_log.setHtml(self.ui.textEdit_log.toPlainText() + comment + "\n")
 
     # URL 세팅
     def make_url(self):
