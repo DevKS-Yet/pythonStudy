@@ -1,11 +1,10 @@
 import requests
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QTextBrowser
 from PySide6.QtCore import QDate, QRegularExpression
 from PySide6.QtGui import QIcon
 from mainwindow_test import Ui_MainWindow
 from widget_test_01 import Ui_Form
 from urllib import parse
-from requests import get
 from bs4 import BeautifulSoup
 
 # WORKGUBUN_TYPE = [(1, '물품'), (3, '공사'), (5, '용역'), (6, '리스'), (2, '외자'), (11, '비축'), (4, '기타'), (20, '민간')]
@@ -90,8 +89,9 @@ class Widget(QWidget):
         return True if line_regex.match(line_edit.text()).hasMatch() else False
 
     # 기간을 6개월 이상 차이나도록 입력했는지 확인
+    # 또는 시작일이 종료일보다 높을 경우에도 True 값 리턴
     def check_date(self, date_start, date_end):
-        return True if date_start.date().daysTo(date_end.date()) > 180 else False  # daysTo는 날짜 비교 함수.
+        return True if date_start.date().daysTo(date_end.date()) > 180 or date_start.date().daysTo(date_end.date()) < 0 else False  # daysTo는 날짜 비교 함수.
 
     # 자동 종료시간이 공란이 아닐 시 00:00 양식으로 제대로 적혔는지 확인
     def check_auto_time(self, line_edit):
@@ -100,6 +100,7 @@ class Widget(QWidget):
     # --------------------------------- 실행 버튼 클릭 시 유효성 검사 실행@@@ ---------------------------------
 
     # 공고/수요기관 라디오 버튼 체크 확인
+    # @Returns : String(공고기관일 경우 "1", 수요기관일 경우 "2")
     def check_org_radio(self):
         # if self.ui.radioButton_gongoOrganization.isChecked():
         #     return "1"
@@ -110,6 +111,7 @@ class Widget(QWidget):
         return "1" if self.ui.radioButton_gongoOrganization.isChecked() else "2"
 
     # 자동화 라디오 버튼 체크 확인
+    # @Returns : boolean(On일 경우 True, Off일 경우 False)
     def check_auto_radio(self):
         # if self.ui.radioButton_autoOn.isChecked():
         #     return "on"
@@ -120,8 +122,12 @@ class Widget(QWidget):
         return True if self.ui.radioButton_autoOn.isChecked() else False
 
     # text_log 추가로 적히게 세팅
-    def add_log(self, comment):
-        return self.ui.textEdit_log.setText(self.ui.textEdit_log.toPlainText() + comment + "\n")
+    # @Retuens : String(@parameter comment 대로 log창에 추가)
+    def add_textlog(self, comment):
+        return self.ui.textBrowser_log.setText(self.ui.textBrowser_log.toPlainText() + comment + "\n")
+
+    def add_htmllog(self, comment):
+        return self.ui.textBrowser_log.setHtml(self.ui.textBrowser_log.toHtml() + comment)
 
     # URL 세팅
     def make_url(self):
@@ -142,61 +148,56 @@ class Widget(QWidget):
         all_text = url + "taskClCds=" + taskClCds + "&bidNm=" + bidNm + "&searchDtType=" + searchDtType + "&fromBidDt=" + fromBidDt + "&toBidDt=" + toBidDt + "&radOrgan=" + radOrgan + "&instNm=" + instNm + "&area=" + area + "&regYn=" + regYn + "&bidSearchType=" + bidSearchType + "&searchType=" + searchType
         return all_text
 
-    #  URL 세팅 메소드를 통해 갖고온 URL로 호출하여 반환된 html 값을 beautifulsoup으로 정리하여 리턴
     def get_html(self, url):
         html_unsorted = requests.get(url, verify=False)
         return BeautifulSoup(html_unsorted.text, 'html.parser')
 
-    # 갖고 온 html.text에서 <div class="tl"> 안에 <a> 값을 href 값과 text 값으로 추출하여 로그에 출력
     def get_href(self, html_input):
         a_tag_list = html_input.select('.tl div a')
         for a_tag in a_tag_list:
-            self.add_log(a_tag.get_attribute_list('href')[0] + " - " + a_tag.text)
+            self.add_htmllog('<a href="' + a_tag.get_attribute_list('href')[0] + '">' + a_tag.text + "</a>")
 
-    #
     def searchByKeyword(self, keyword_input, html_input):
         div_a_tag = html_input.find_all(lambda tag: tag.name == 'a' and keyword_input in tag.text)
         if not div_a_tag:
-            self.add_log("#"*5 + "해당 키워드로 올라온 공고가 없습니다." + "#"*5)
+            self.add_textlog("#"*5 + "해당 키워드로 올라온 공고가 없습니다." + "#"*5)
         else:
             for a_tag in div_a_tag:
                 href_split = str(a_tag.getText).split('"')
                 href = href_split[1]
-                self.add_log(href)
-
+                self.add_textlog(href)
 
     # 버튼 클릭 시 확인을 위한 메서드
     def run_app(self):
-        # 유효성 검사 관련
-        self.ui.textEdit_log.setText("유효성 검사중입니다...\n")
+        self.ui.textBrowser_log.setText("유효성 검사중입니다...\n")
         if self.check_regex_line(self.ui.lineEdit_announceName):
-            self.add_log("공고명에 @, $, %, &, = 등으로 파라미터값을 조정하지 마세요...")
+            self.add_textlog("공고명에 @, $, %, &, = 등으로 파라미터값을 조정하지 마세요...")
             return
         elif self.check_regex_line(self.ui.lineEdit_organizationName):
-            self.add_log("기관명에 @, $, %, &, = 등으로 파라미터값을 조정하지 마세요...")
+            self.add_textlog("기관명에 @, $, %, &, = 등으로 파라미터값을 조정하지 마세요...")
             return
         elif self.check_date(self.ui.dateEdit_dateStart, self.ui.dateEdit_dateEnd):
-            self.add_log("기간 간격은 6개월 이내입니다...")
+            self.add_textlog("기간 간격은 6개월 이내입니다...")
             return
         else:
-            self.add_log("유효성 검사를 마쳤습니다.")
+            self.add_textlog("유효성 검사를 마쳤습니다.")
 
-        self.add_log("URL 생성중입니다...")
+        self.add_textlog("URL 생성중입니다...")
         url = self.make_url()
-        self.add_log("URL 생성 완료입니다.")
+        self.add_textlog("URL 생성 완료입니다.")
 
-        # 자동화 설정이 켜져있는지 꺼져있는지 확인
         if self.check_auto_radio():
-            self.add_log("자동화 설정 확인중입니다...")
+            self.add_textlog("자동화 설정 확인중입니다...")
             if self.check_auto_time(self.ui.lineEdit_autoEndTime):
-                self.add_log("자동화 종료시간을 제대로 적어주세요.\n공란일 시에는 18시에 종료됩니다.")
+                self.add_textlog("자동화 종료시간을 제대로 적어주세요.\n공란일 시에는 18시에 종료됩니다.")
                 return
-            self.add_log("자동화 설정 확인을 마쳤습니다.")
+            self.add_textlog("자동화 설정 확인을 마쳤습니다.")
         else:
-            self.add_log("자동화 설정이 꺼져있으므로 1회만 실행합니다.")
+            self.add_textlog("자동화 설정이 꺼져있으므로 1회만 실행합니다.")
             html = self.get_html(url)
-            print(html)
             self.get_href(html)
+            self.ui.textBrowser_log.setOpenExternalLinks(True)
+            print(self.ui.textBrowser_log.toHtml())
 
 
 # 전체 창 설정 부분(타이클, 아이콘, 메뉴바, 상태바
