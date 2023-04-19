@@ -142,15 +142,18 @@ class Widget(QWidget):
         all_text = url + "taskClCds=" + taskClCds + "&bidNm=" + bidNm + "&searchDtType=" + searchDtType + "&fromBidDt=" + fromBidDt + "&toBidDt=" + toBidDt + "&radOrgan=" + radOrgan + "&instNm=" + instNm + "&area=" + area + "&regYn=" + regYn + "&bidSearchType=" + bidSearchType + "&searchType=" + searchType
         return all_text
 
+    #  URL 세팅 메소드를 통해 갖고온 URL로 호출하여 반환된 html 값을 beautifulsoup으로 정리하여 리턴
     def get_html(self, url):
         html_unsorted = requests.get(url, verify=False)
         return BeautifulSoup(html_unsorted.text, 'html.parser')
 
+    # 갖고 온 html.text에서 <div class="tl"> 안에 <a> 값을 href 값과 text 값으로 추출하여 로그에 출력
     def get_href(self, html_input):
         a_tag_list = html_input.select('.tl div a')
         for a_tag in a_tag_list:
             self.add_log(a_tag.get_attribute_list('href')[0] + " - " + a_tag.text)
 
+    #
     def searchByKeyword(self, keyword_input, html_input):
         div_a_tag = html_input.find_all(lambda tag: tag.name == 'a' and keyword_input in tag.text)
         if not div_a_tag:
@@ -164,6 +167,7 @@ class Widget(QWidget):
 
     # 버튼 클릭 시 확인을 위한 메서드
     def run_app(self):
+        # 유효성 검사 관련
         self.ui.textEdit_log.setText("유효성 검사중입니다...\n")
         if self.check_regex_line(self.ui.lineEdit_announceName):
             self.add_log("공고명에 @, $, %, &, = 등으로 파라미터값을 조정하지 마세요...")
@@ -181,6 +185,7 @@ class Widget(QWidget):
         url = self.make_url()
         self.add_log("URL 생성 완료입니다.")
 
+        # 자동화 설정이 켜져있는지 꺼져있는지 확인
         if self.check_auto_radio():
             self.add_log("자동화 설정 확인중입니다...")
             if self.check_auto_time(self.ui.lineEdit_autoEndTime):
