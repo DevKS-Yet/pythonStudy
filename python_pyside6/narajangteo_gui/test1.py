@@ -1,7 +1,7 @@
 import requests
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QTextBrowser
 from PySide6.QtCore import QDate, QRegularExpression
-from PySide6.QtGui import QIcon
+from PySide6.QtGui import QIcon, QPixmap
 from mainwindow_test import Ui_MainWindow
 from widget_test_01 import Ui_Form
 from urllib import parse
@@ -47,6 +47,7 @@ class Widget(QWidget):
         # dateEdit_dateStart = self.ui.dateEdit_dateStart
         # dateEdit_dateEnd = self.ui.dateEdit_dateEnd
         # # --------------------------------- Widget 변수 선언@@@ ---------------------------------
+        self.ui.label_pic1.setPixmap(QPixmap("Kyaru.png"))
 
         # --------------------------------- @@@상단 부분 Select, Combo 및 날짜 설정 ---------------------------------
         # 공고 구분 키, 값 넣기
