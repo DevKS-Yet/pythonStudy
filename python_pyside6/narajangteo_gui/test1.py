@@ -1,5 +1,5 @@
 import requests
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QTextBrowser
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
 from PySide6.QtCore import QDate, QRegularExpression
 from PySide6.QtGui import QIcon, QPixmap
 from mainwindow_test import Ui_MainWindow
@@ -7,10 +7,6 @@ from widget_test_01 import Ui_Form
 from urllib import parse
 from bs4 import BeautifulSoup
 
-# WORKGUBUN_TYPE = [(1, '물품'), (3, '공사'), (5, '용역'), (6, '리스'), (2, '외자'), (11, '비축'), (4, '기타'), (20, '민간')]
-# WORKGUBUN_TYPE = {1: ['물품'], 3: '공사', 5: '용역', 6: '리스', 2: '외자', 11: '비축', 4: '기타', 20: '민간'}
-# WORKGUBUN_TYPE_LIST = ['물품', '공사', '용역', '리스', '외자', '비축', '기타']
-# WORKGUBUN_TYPE = {0: (1, '물품'), 1: (3, '공사'), 2: (5, '용역'), 3: (6, '리스'), 4: (2, '외자'), 5: (11, '비축'), 6: (4, '기타'), 7: (20, '민간')}
 WORKGUBUN_TYPE = {"1": '물품', "3": '공사', "5": '용역', "6": '리스', "2": '외자', "11": '비축', "4": '기타', "20": '민간'}
 DATEGUBUN_TYPE = {"1": '공고일', "2": '개찰일'}
 AREAGUBUN_TYPE = {"": "전체", "00": "전국", "11": "서울", "26": "부산", "28": "인천", "27": "대구", "29": "광주", "30": "대전",
@@ -26,28 +22,8 @@ class Widget(QWidget):
         self.ui = Ui_Form()
         self.ui.setupUi(self)
 
-        # @@@아직 파이썬에서 클래스 변수랑 인스턴스 변수를 어떻게 사용하는지 몰라서 폐지@@@
-        # # --------------------------------- @@@Widget 변수 선언 ---------------------------------
-        # # 라벨
-        # pic = self.ui.label_pic1  # 사진
-        # label_workGubun = self.ui.label_workGubun  # 업무구분 라벨
-        # label_announceName = self.ui.label_announceName  # 공고명 라벨
-        # label_dateGubun = self.ui.label_dateGubun  # 공고/개찰일 라벨
-        # label_dateStart = self.ui.label_dateStart  # 시작일 라벨
-        # label_dateEnd = self.ui.label_dateEnd  # 종료일 라벨
-        #
-        # # 콤보 박스
-        # combo_workGubun = self.ui.comboBox_workGubun  # 업무구분 콤보박스
-        # combo_dateGubun = self.ui.comboBox_dateGubun  # 공고/개찰일 콤보박스
-        #
-        # # 텍스트 라인
-        # lineEdit_announceName = self.ui.lineEdit_announceName  # 공고명 텍스트 라인
-        #
-        # # 날짜
-        # dateEdit_dateStart = self.ui.dateEdit_dateStart
-        # dateEdit_dateEnd = self.ui.dateEdit_dateEnd
         # # --------------------------------- Widget 변수 선언@@@ ---------------------------------
-        self.ui.label_pic1.setPixmap(QPixmap("Kyaru.png"))
+        # self.ui.label_pic1.setPixmap(QPixmap("Kyaru.png"))
 
         # --------------------------------- @@@상단 부분 Select, Combo 및 날짜 설정 ---------------------------------
         # 공고 구분 키, 값 넣기
@@ -103,23 +79,11 @@ class Widget(QWidget):
     # 공고/수요기관 라디오 버튼 체크 확인
     # @Returns : String(공고기관일 경우 "1", 수요기관일 경우 "2")
     def check_org_radio(self):
-        # if self.ui.radioButton_gongoOrganization.isChecked():
-        #     return "1"
-        # elif self.ui.radioButton_suyoOrganization.isChecked():
-        #     return "2"
-        # else:
-        #     print("error")
         return "1" if self.ui.radioButton_gongoOrganization.isChecked() else "2"
 
     # 자동화 라디오 버튼 체크 확인
     # @Returns : boolean(On일 경우 True, Off일 경우 False)
     def check_auto_radio(self):
-        # if self.ui.radioButton_autoOn.isChecked():
-        #     return "on"
-        # elif self.ui.radioButton_autoOff.isChecked():
-        #     return "off"
-        # else:
-        #     print("error")
         return True if self.ui.radioButton_autoOn.isChecked() else False
 
     # text_log 추가로 적히게 세팅
