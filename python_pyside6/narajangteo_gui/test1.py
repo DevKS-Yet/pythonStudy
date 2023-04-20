@@ -1,4 +1,5 @@
 import requests
+import time
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
 from PySide6.QtCore import QDate, QRegularExpression
 from PySide6.QtGui import QIcon, QPixmap
@@ -87,10 +88,11 @@ class Widget(QWidget):
         return True if self.ui.radioButton_autoOn.isChecked() else False
 
     # text_log 추가로 적히게 세팅
-    # @Retuens : String(@parameter comment 대로 log창에 추가)
+    # @Returns : void(@parameter comment 대로 log창에 추가)
     def add_textlog(self, comment):
         return self.ui.textBrowser_log.setText(self.ui.textBrowser_log.toPlainText() + comment + "\n")
 
+    # @Returns : void(@parameter comment 대로 log창에 html 형식으로 추가; hyperlink 용도)
     def add_htmllog(self, comment):
         return self.ui.textBrowser_log.setHtml(self.ui.textBrowser_log.toHtml() + comment)
 
@@ -156,7 +158,18 @@ class Widget(QWidget):
             if self.check_auto_time(self.ui.lineEdit_autoEndTime):
                 self.add_textlog("자동화 종료시간을 제대로 적어주세요.\n공란일 시에는 18시에 종료됩니다.")
                 return
-            self.add_textlog("자동화 설정 확인을 마쳤습니다.")
+            else:
+                self.add_textlog("자동화 설정 확인을 마쳤습니다.")
+                if self.ui.lineEdit_autoEndTime:
+                    self.ui.lineEdit_autoEndTime.setText("18:00")
+                end_time = self.ui.lineEdit_autoEndTime.text().replace(":", "")
+                interval_time = int(self.ui.comboBox_autoInterval.currentText().replace("분", ""))
+                keyword = self.ui.lineEdit_searchKeyword.text()
+                while time.strftime('%M%S', time.localtime()) < end_time:
+                    self.add_textlog("working")
+                    self.ui.textBrowser_log.show()
+                    time.sleep(interval_time*20)
+
         else:
             self.add_textlog("자동화 설정이 꺼져있으므로 1회만 실행합니다.")
             html = self.get_html(url)
