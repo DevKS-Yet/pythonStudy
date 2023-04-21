@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'widget_test_01.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.4.3
+## Created by: Qt User Interface Compiler version 6.5.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -336,6 +336,21 @@ class Ui_Form(object):
 
         self.gridLayout.addLayout(self.wrapAll, 0, 0, 1, 1)
 
+        QWidget.setTabOrder(self.comboBox_workGubun, self.lineEdit_announceName)
+        QWidget.setTabOrder(self.lineEdit_announceName, self.comboBox_dateGubun)
+        QWidget.setTabOrder(self.comboBox_dateGubun, self.dateEdit_dateStart)
+        QWidget.setTabOrder(self.dateEdit_dateStart, self.dateEdit_dateEnd)
+        QWidget.setTabOrder(self.dateEdit_dateEnd, self.radioButton_gongoOrganization)
+        QWidget.setTabOrder(self.radioButton_gongoOrganization, self.radioButton_suyoOrganization)
+        QWidget.setTabOrder(self.radioButton_suyoOrganization, self.lineEdit_organizationName)
+        QWidget.setTabOrder(self.lineEdit_organizationName, self.comboBox_areaGubun)
+        QWidget.setTabOrder(self.comboBox_areaGubun, self.radioButton_autoOn)
+        QWidget.setTabOrder(self.radioButton_autoOn, self.radioButton_autoOff)
+        QWidget.setTabOrder(self.radioButton_autoOff, self.lineEdit_searchKeyword)
+        QWidget.setTabOrder(self.lineEdit_searchKeyword, self.comboBox_autoInterval)
+        QWidget.setTabOrder(self.comboBox_autoInterval, self.lineEdit_autoEndTime)
+        QWidget.setTabOrder(self.lineEdit_autoEndTime, self.pushButton_run)
+        QWidget.setTabOrder(self.pushButton_run, self.textBrowser_log)
 
         self.retranslateUi(Form)
 

@@ -447,6 +447,24 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>comboBox_workGubun</tabstop>
+  <tabstop>lineEdit_announceName</tabstop>
+  <tabstop>comboBox_dateGubun</tabstop>
+  <tabstop>dateEdit_dateStart</tabstop>
+  <tabstop>dateEdit_dateEnd</tabstop>
+  <tabstop>radioButton_gongoOrganization</tabstop>
+  <tabstop>radioButton_suyoOrganization</tabstop>
+  <tabstop>lineEdit_organizationName</tabstop>
+  <tabstop>comboBox_areaGubun</tabstop>
+  <tabstop>radioButton_autoOn</tabstop>
+  <tabstop>radioButton_autoOff</tabstop>
+  <tabstop>lineEdit_searchKeyword</tabstop>
+  <tabstop>comboBox_autoInterval</tabstop>
+  <tabstop>lineEdit_autoEndTime</tabstop>
+  <tabstop>pushButton_run</tabstop>
+  <tabstop>textBrowser_log</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

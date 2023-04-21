@@ -1,7 +1,7 @@
 import requests
 import time
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
-from PySide6.QtCore import QDate, QRegularExpression
+from PySide6.QtCore import QDate, QRegularExpression, QTimer
 from PySide6.QtGui import QIcon, QPixmap
 from mainwindow_test import Ui_MainWindow
 from widget_test_01 import Ui_Form
@@ -133,6 +133,10 @@ class Widget(QWidget):
                 href_split = str(a_tag.getText).split('"')
                 href = href_split[1]
                 self.add_textlog(href)
+                self.add_textlog(time.strftime("%I:%M:%S"))
+
+    def searchByKeyword1(self):
+        self.add_textlog(time.strftime("%I:%M:%S"))
 
     # 버튼 클릭 시 확인을 위한 메서드
     def run_app(self):
@@ -165,11 +169,13 @@ class Widget(QWidget):
                 end_time = self.ui.lineEdit_autoEndTime.text().replace(":", "")
                 interval_time = int(self.ui.comboBox_autoInterval.currentText().replace("분", ""))
                 keyword = self.ui.lineEdit_searchKeyword.text()
-                while time.strftime('%M%S', time.localtime()) < end_time:
-                    self.add_textlog("working")
-                    self.ui.textBrowser_log.show()
-                    time.sleep(interval_time*20)
-
+                html = self.get_html(url)
+                self.local_timer = QTimer()
+                self.local_timer.setInterval(10000)
+                self.local_timer.timeout.connect(self.searchByKeyword1)
+                self.local_timer.start()
+                # self.local_timer.startTimer(60000)
+                # QTimer.singleShot(50000, self.searchByKeyword(keyword, html))
         else:
             self.add_textlog("자동화 설정이 꺼져있으므로 1회만 실행합니다.")
             html = self.get_html(url)
