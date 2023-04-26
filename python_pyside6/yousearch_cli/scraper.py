@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 import time
 import random
 import pandas as pd
+import os
 
 # 최신 크롬 드라이버 사용하도록 세팅: 현재 OS에 설치된 크롬 브라우저 버전에 맞게 cache에 드라이버 설치
 from selenium.webdriver.chrome.service import Service
@@ -50,6 +51,7 @@ def scroll():
 
     except Exception as e:
         print("에러 발생: ", e)
+        os.system("pause")
 
 
 ## 데이터 Scrap
@@ -100,3 +102,5 @@ content_total_dict = {'title': content_total_title,
 # ## 데이터프레임 저장
 df = pd.DataFrame(content_total_dict)
 df.to_csv("./content_total.csv", encoding='utf-8-sig')
+
+os.system("pause")
