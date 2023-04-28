@@ -19,6 +19,7 @@ AUTOINTERVAL_TIME = {"5": "5분", "10": "10분", "15": "15분", "30": "30분", "
 # 내부 메인 위젯
 class Widget(QWidget):
     def __init__(self):
+        self.url_final = None
         super(Widget, self).__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
@@ -69,12 +70,14 @@ class Widget(QWidget):
     # 기간을 6개월 이상 차이나도록 입력했는지 확인
     # 또는 시작일이 종료일보다 높을 경우에도 True 값 리턴
     def check_date(self, date_start, date_end):
-        return True if date_start.date().daysTo(date_end.date()) > 180 or date_start.date().daysTo(date_end.date()) < 0 else False  # daysTo는 날짜 비교 함수.
+        return True if date_start.date().daysTo(date_end.date()) > 180 or date_start.date().daysTo(
+            date_end.date()) < 0 else False  # daysTo는 날짜 비교 함수.
 
     # 자동 종료시간이 공란이 아닐 시 00:00 양식으로 제대로 적혔는지 확인
     def check_auto_time(self, line_edit):
         time_regex = QRegularExpression("[0-1][0-9]:[0-5][0-9]|[2][0-3]:[0-5][0-9]")  # 00:00~23:59 까지 설정 가능
         return True if not time_regex.match(line_edit.text()).hasMatch() and not line_edit.text() == "" else False
+
     # --------------------------------- 실행 버튼 클릭 시 유효성 검사 실행@@@ ---------------------------------
 
     # 공고/수요기관 라디오 버튼 체크 확인
@@ -112,8 +115,7 @@ class Widget(QWidget):
         regYn = "Y"
         bidSearchType = "1"
         searchType = "1"
-        all_text = url + "taskClCds=" + taskClCds + "&bidNm=" + bidNm + "&searchDtType=" + searchDtType + "&fromBidDt=" + fromBidDt + "&toBidDt=" + toBidDt + "&radOrgan=" + radOrgan + "&instNm=" + instNm + "&area=" + area + "&regYn=" + regYn + "&bidSearchType=" + bidSearchType + "&searchType=" + searchType
-        return all_text
+        self.url_final = url + "taskClCds=" + taskClCds + "&bidNm=" + bidNm + "&searchDtType=" + searchDtType + "&fromBidDt=" + fromBidDt + "&toBidDt=" + toBidDt + "&radOrgan=" + radOrgan + "&instNm=" + instNm + "&area=" + area + "&regYn=" + regYn + "&bidSearchType=" + bidSearchType + "&searchType=" + searchType
 
     def get_html(self, url):
         html_unsorted = requests.get(url, verify=False)
@@ -127,16 +129,13 @@ class Widget(QWidget):
     def searchByKeyword(self, keyword_input, html_input):
         div_a_tag = html_input.find_all(lambda tag: tag.name == 'a' and keyword_input in tag.text)
         if not div_a_tag:
-            self.add_textlog("#"*5 + "해당 키워드로 올라온 공고가 없습니다." + "#"*5)
+            self.add_textlog("#" * 5 + "해당 키워드로 올라온 공고가 없습니다." + "#" * 5)
         else:
             for a_tag in div_a_tag:
                 href_split = str(a_tag.getText).split('"')
                 href = href_split[1]
                 self.add_textlog(href)
                 self.add_textlog(time.strftime("%I:%M:%S"))
-
-    def searchByKeyword1(self):
-        self.add_textlog(time.strftime("%I:%M:%S"))
 
     # 버튼 클릭 시 확인을 위한 메서드
     def run_app(self):
@@ -154,7 +153,7 @@ class Widget(QWidget):
             self.add_textlog("유효성 검사를 마쳤습니다.")
 
         self.add_textlog("URL 생성중입니다...")
-        url = self.make_url()
+        self.make_url()
         self.add_textlog("URL 생성 완료입니다.")
 
         if self.check_auto_radio():
