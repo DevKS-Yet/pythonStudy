@@ -102,5 +102,3 @@ content_total_dict = {'title': content_total_title,
 # ## 데이터프레임 저장
 df = pd.DataFrame(content_total_dict)
 df.to_csv("./content_total.csv", encoding='utf-8-sig')
-
-os.system("pause")
