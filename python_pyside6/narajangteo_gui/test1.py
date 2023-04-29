@@ -90,16 +90,18 @@ class Widget(QWidget):
     def check_auto_radio(self):
         return True if self.ui.radioButton_autoOn.isChecked() else False
 
-    # text_log 추가로 적히게 세팅
+    # text_log 추가로 적히게 세팅 ; 만사 귀찮다
     # @Returns : void(@parameter comment 대로 log창에 추가)
     def add_textlog(self, comment):
         return self.ui.textBrowser_log.setText(self.ui.textBrowser_log.toPlainText() + comment + "\n")
 
+    # html_log 추가로 적히게 세팅 ; 만사 귀찮다
     # @Returns : void(@parameter comment 대로 log창에 html 형식으로 추가; hyperlink 용도)
     def add_htmllog(self, comment):
         return self.ui.textBrowser_log.setHtml(self.ui.textBrowser_log.toHtml() + comment)
 
     # URL 세팅
+    # @Returns : void(@parameter None; 위젯의 내용에서 받아오기)
     def make_url(self):
         url = "https://www.g2b.go.kr:8101/ep/tbid/tbidList.do?"
         taskClCds = self.ui.comboBox_workGubun.currentData()
@@ -168,7 +170,7 @@ class Widget(QWidget):
                 end_time = self.ui.lineEdit_autoEndTime.text().replace(":", "")
                 interval_time = int(self.ui.comboBox_autoInterval.currentText().replace("분", ""))
                 keyword = self.ui.lineEdit_searchKeyword.text()
-                html = self.get_html(url)
+                html = self.get_html(self.url_final)
                 self.local_timer = QTimer()
                 self.local_timer.setInterval(10000)
                 self.local_timer.timeout.connect(self.searchByKeyword1)
@@ -177,7 +179,7 @@ class Widget(QWidget):
                 # QTimer.singleShot(50000, self.searchByKeyword(keyword, html))
         else:
             self.add_textlog("자동화 설정이 꺼져있으므로 1회만 실행합니다.")
-            html = self.get_html(url)
+            html = self.get_html(self.url_final)
             self.get_href(html)
             self.ui.textBrowser_log.setOpenExternalLinks(True)
             print(self.ui.textBrowser_log.toHtml())
