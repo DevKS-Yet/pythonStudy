@@ -1,7 +1,7 @@
 import requests
 import time
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
-from PySide6.QtCore import QDate, QRegularExpression, QTimer
+from PySide6.QtCore import QDate, QRegularExpression, QTimer, QSize, Qt
 from PySide6.QtGui import QIcon, QPixmap
 from mainwindow_test import Ui_MainWindow
 from widget_test_01 import Ui_Form
@@ -25,7 +25,9 @@ class Widget(QWidget):
         self.ui.setupUi(self)
 
         # # --------------------------------- Widget 변수 선언@@@ ---------------------------------
-        # self.ui.label_pic1.setPixmap(QPixmap("Kyaru.png"))
+        pixmap = QPixmap("Kyaru.png")
+        pixmap1 = pixmap.scaled(QSize(90, 90), aspectMode=Qt.KeepAspectRatio)
+        self.ui.label_pic1.setPixmap(pixmap1)
 
         # --------------------------------- @@@상단 부분 Select, Combo 및 날짜 설정 ---------------------------------
         # 공고 구분 키, 값 넣기
